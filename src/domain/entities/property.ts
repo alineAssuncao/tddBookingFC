@@ -1,12 +1,16 @@
 import { DateRange } from "../value_objects/date_range";
+import { Booking } from "./booking";
 
 export class Property{
+    private readonly bookings: Booking[] = []
+
     constructor(
         private id: string,
         private name: string,
         private description: string,
         private maxGuests: number,
         private basePricePerNight: number
+        
     ){
         if(!id){
             throw new Error("Id não pode ser vazio");
@@ -63,5 +67,20 @@ export class Property{
 
         return totalPrice;
     }   
+
+    isAvailable(dateRange: DateRange): boolean{
+        return !this.bookings.some(booking => 
+            booking.getStatus() === "CONFIRMED" &&
+            booking.getDateRange().overlaps(dateRange)
+        );
+    }
+
+    addBooking(booking: Booking): void{
+        this.bookings.push(booking);
+    }
+
+    getBookings(): Booking[]{
+        return this.bookings;
+    }
     
 }

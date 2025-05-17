@@ -9,9 +9,9 @@ describe("User Entity", () => {
 
     it("deve lançar um erro se o nome for vazio", () => {
         expect(() => new User("1", "")).toThrow("O nome é obrigatório.")
-    })
+    });
 
     it("deve lançar um erro se o id for vazio", () => {
         expect(() => new User("", "Aline Assunção")).toThrow("O id é obrigatório.")
-    })
+    });
 });

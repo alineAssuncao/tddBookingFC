@@ -1,5 +1,7 @@
 import { Property } from "./property";
+import { User } from "./user";
 import { DateRange } from "../value_objects/date_range";
+import { Booking } from "./booking";
 
 describe("Property Entity", () => {
     it("deve criar uma instancia de Property com todo os atritutos", () => {
@@ -53,4 +55,38 @@ describe("Property Entity", () => {
         const totalPrice = property.calculateTotalPrice(dateRange);
         expect(totalPrice).toBe(1260);
     });
+
+    it("deve verificar disponibilidade da propriedade", () => {
+        const property = new Property("2", "Casa de praia", "Casa linda", 2, 200);
+        const user = new User("1", "Aline Assunção");
+        const dateRangeReserva = new DateRange(new Date("2023-10-01"), new Date("2023-10-05"));
+        const dateRangeNovaReserva = new DateRange(new Date("2023-10-03"), new Date("2023-10-10"));
+
+        new Booking("1", property, user, dateRangeReserva, 2);
+
+        expect(property.isAvailable(dateRangeReserva)).toBe(false);
+        expect(property.isAvailable(dateRangeNovaReserva)).toBe(false);
+    });
+
+    it("deve adicionar um booking à lista de reservas", () => {
+        const property = new Property("1", "Casa de campo", "Casa tranquila, junto a natureza", 4, 175);
+        const user = new User("1", "Aline Assunção");
+        const dateRange = new DateRange(new Date("2023-10-01"), new Date("2023-10-05"));
+
+        const booking = new Booking("1", property, user, dateRange, 2);
+
+        expect(property.getBookings()).toContain(booking);
+    });
+
+    it("deve retornar todas as reservas da propriedade", () => {
+        const property = new Property("1", "Casa de campo", "Casa tranquila, junto a natureza", 4, 175);
+        const user = new User("1", "Aline Assunção");
+        const dateRange1 = new DateRange(new Date("2023-10-01"), new Date("2023-10-05"));
+        const dateRange2 = new DateRange(new Date("2023-10-06"), new Date("2023-10-10"));
+
+        const booking1 = new Booking("1", property, user, dateRange1, 2);
+        const booking2 = new Booking("2", property, user, dateRange2, 2);
+
+        expect(property.getBookings()).toEqual([booking1, booking2]);
+    }); 
 });
