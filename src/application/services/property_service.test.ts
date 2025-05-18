@@ -1,6 +1,6 @@
-import { PropertyService } from "./property_service";
-import { Property } from "../domain/entities/property";
-import { FakePropertyRepository } from "../infrastructure/repositories/fake_property_repository";
+import { PropertyService } from "../services/property_service";
+import { Property } from "../../domain/entities/property";
+import { FakePropertyRepository } from "../../infrastructure/repositories/fake_property_repository";
 
 describe("PropertyService", () => {
 

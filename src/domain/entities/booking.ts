@@ -2,12 +2,13 @@ import { Property } from "./property";
 import { User } from "./user";
 import { DateRange } from "../value_objects/date_range";
 import { RefundRuleFactory } from "../cancelation/refund_rule_factory";
+import { IDateRange } from "../interfaces/idate_range";
 
 export class Booking{
     private readonly id: string;
     private readonly property: Property;    
     private readonly guest: User;
-    private readonly dateRange: DateRange;
+    private readonly dateRange: IDateRange;
     private readonly guestCount: number;
     private status: 'CONFIRMED' | 'CANCELLED' = 'CONFIRMED';
     private totalPrice: number;
@@ -16,7 +17,7 @@ export class Booking{
         id: string,
         property: Property,
         guest: User,
-        dateRange: DateRange,
+        dateRange: IDateRange,
         guestCount: number
     ){
         if(!id){
@@ -56,7 +57,7 @@ export class Booking{
         return this.guest;
     }
 
-    getDateRange(): DateRange{
+    getDateRange(): IDateRange{
         return this.dateRange;
     }
 

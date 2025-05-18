@@ -1,3 +1,4 @@
+import { IDateRange } from "../interfaces/idate_range";
 import { DateRange } from "../value_objects/date_range";
 import { Booking } from "./booking";
 
@@ -57,7 +58,7 @@ export class Property{
         }
     }
 
-    calculateTotalPrice(dateRange: DateRange): number{
+    calculateTotalPrice(dateRange: IDateRange): number{
         const totalNights = dateRange.getTotalNights();
         let totalPrice = totalNights * this.basePricePerNight;
 
@@ -68,7 +69,7 @@ export class Property{
         return totalPrice;
     }   
 
-    isAvailable(dateRange: DateRange): boolean{
+    isAvailable(dateRange: IDateRange): boolean{
         return !this.bookings.some(booking => 
             booking.getStatus() === "CONFIRMED" &&
             booking.getDateRange().overlaps(dateRange)

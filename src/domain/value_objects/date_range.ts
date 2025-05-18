@@ -1,4 +1,6 @@
-export class DateRange{
+import { IDateRange } from "../interfaces/idate_range";
+
+export class DateRange implements IDateRange {
     private readonly startDate: Date;
     private readonly endDate: Date;
 
@@ -8,8 +10,8 @@ export class DateRange{
         this.endDate = endDate;
     }
 
-    private validateDates(startDate: Date, endDate: Date): void{
-        if (startDate == endDate){
+    public validateDates(startDate: Date, endDate: Date): void{
+        if (startDate === endDate){
             throw new Error("A data de início e término não podem ser iguais.");
         }
         if (endDate < startDate){
@@ -30,9 +32,9 @@ export class DateRange{
         return Math.ceil(diffTime / (1000 * 3600 * 24));
     }
 
-    overlaps(other: DateRange): boolean{
+    overlaps(other: IDateRange): boolean{
         return(
-            this.startDate < other.endDate && other.getStartDate() < this.endDate
+            this.startDate < other.getEndDate() && other.getStartDate() < this.endDate
         )
     }
 }
