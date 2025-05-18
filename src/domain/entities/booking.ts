@@ -1,6 +1,7 @@
 import { Property } from "./property";
 import { User } from "./user";
 import { DateRange } from "../value_objects/date_range";
+import { RefundRuleFactory } from "../cancelation/refund_rule_factory";
 
 export class Booking{
     private readonly id: string;
@@ -81,11 +82,8 @@ export class Booking{
         const timeDifference = checkInDate.getTime() - currentDate.getTime();
         const daysUntilCheckin = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
-        if(daysUntilCheckin > 7){
-            this.totalPrice = 0;
-        } else if(daysUntilCheckin >= 1 ){
-            this.totalPrice *= 0.5; 
-        }
+        const refundRule = RefundRuleFactory.getRefundRule(daysUntilCheckin);
+        this.totalPrice = refundRule.calculateRefund(this.totalPrice);
     }
 
 }
