@@ -41,4 +41,10 @@ export class BookingService {
         return booking;
 
     }
+
+    async cancelBooking(bookingId: string): Promise<void> {
+        const booking = await this.bookingRepository.findBookingById(bookingId);
+        booking?.cancel(new Date());
+        await this.bookingRepository.save(booking!);
+    }
 }
