@@ -44,7 +44,7 @@ export class Property{
         return this.description;
     }
 
-    geMaxGuests(): number{
+    getMaxGuests(): number{
         return this.maxGuests;
     }
 

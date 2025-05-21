@@ -32,9 +32,24 @@ describe("TypeORMUserRepository", () => {
         const user = new User("1", "Ana Clara");
         await userRepository.saveUser(user);
 
+        const savedUser = await repository.findOne({ where: { id: "1" } });
+        expect(savedUser).not.toBeNull();
+        expect(savedUser?.id).toBe("1");
+        expect(savedUser?.name).toBe("Ana Clara");
+    });
+
+    it("deve retornar um usuário quando o ID for valido", async () => {
+        const user = new User("1", "Ana Clara");
+        await userRepository.saveUser(user);
+
         const savedUser = await userRepository.findUserById("1");
         expect(savedUser).not.toBeNull();
         expect(savedUser?.getId()).toBe("1");
         expect(savedUser?.getName()).toBe("Ana Clara");
+    });
+
+    it("deve retornar um usuário quando o ID for valido", async () => {
+        const savedUser = await userRepository.findUserById("6");
+        expect(savedUser).toBeNull();
     });
 });

@@ -73,6 +73,10 @@ export class Booking{
         return this.totalPrice;
     }
 
+    getGuest(): User{
+        return this.guest;
+    }
+
     cancel(currentDate: Date): void{
         if(this.status === 'CANCELLED'){
             throw new Error("Reserva já foi cancelada.");

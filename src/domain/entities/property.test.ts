@@ -9,7 +9,7 @@ describe("Property Entity", () => {
         expect(property.getId()).toBe("1");
         expect(property.getName()).toBe("Casa de campo");
         expect(property.getDescription()).toBe("Casa tranquila, junto a natureza");
-        expect(property.geMaxGuests()).toBe(4);
+        expect(property.getMaxGuests()).toBe(4);
         expect(property.getBasePrice()).toBe(175);
     });
 
