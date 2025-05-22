@@ -76,4 +76,53 @@ describe("TypeORMBookingRepository", () => {
         expect(savedBooking?.getGuest().getId()).toBe("1");
     });
 
+    it("deve retornar null quando ID for inexistente", async () => {
+        const booking = await bookingRepository.findBookingById("999");
+        expect(booking).toBeNull();
+    });
+
+    it("deve salvar uma reserva com sucesso, fazendo um cancelamento posterior", async () => {
+        const propertyRepository = dataSource.getRepository(PropertyEntity);
+        const userRepository = dataSource.getRepository(UserEntity);
+
+        const propertyEntity = propertyRepository.create({
+            name: "Casa",
+            description: "Rua movimentada",
+            maxGuests: 6,   
+            basePricePerNight: 100
+        });
+        propertyEntity.id = "1";
+        await propertyRepository.save(propertyEntity);
+
+        const property = new Property(
+            "1",
+            "Casa",
+            "Rua movimentada",
+            6,
+            100
+        );
+
+        const userEntity = userRepository.create({
+            id: "1",
+            name: "John Doe",
+        });
+        await userRepository.save(userEntity);
+
+        const user = new User("1", "John Doe");
+        const dataRange = new DateRange(
+            new Date("2023-10-01"),
+            new Date("2023-10-10")
+        );
+
+        const booking = new Booking("1", property, user, dataRange, 4);
+        await bookingRepository.save(booking);
+
+        booking.cancel(new Date("2023-09-20"));
+        await bookingRepository.save(booking);
+
+        const updateBooking = await bookingRepository.findBookingById("1");
+        expect(updateBooking).not.toBeNull();
+        expect(updateBooking?.getStatus()).toBe("CANCELLED");
+    });
+
 });
